@@ -14,7 +14,6 @@ schedules:
       - cephfs_projekte_2018
       - cephfs_projekte_2019
       - website_wordpress
-      - website_db
   - name: monthly backup
     prefix: monthly
     cron:
@@ -29,7 +28,6 @@ schedules:
       - cephfs_projekte_2018
       - cephfs_projekte_2019
       - website_wordpress
-      - website_db
   - name: daily backup
     prefix: daily
     cron:
@@ -43,7 +41,6 @@ schedules:
       - cephfs_projekte_2018
       - cephfs_projekte_2019
       - website_wordpress
-      - website_db
   - name: hourly backup
     prefix: hourly
     cron:
@@ -56,7 +53,6 @@ schedules:
       - cephfs_projekte_2018
       - cephfs_projekte_2019
       - website_wordpress
-      - website_db
   - name: every 15 minutes
     prefix: frequently
     cron:
@@ -73,10 +69,6 @@ sources:
     name: the wordpress installation for stat-up.com
     type: rbd
     location: replicapool/statup-wordpress
-  website_db:
-    name: the database for the wordpress installation for stat-up.com
-    type: rbd
-    location: replicapool/pvc-1af50a83-bde0-11e9-ab46-50465d9e24dd
   cephfs_projekte_2015:
     name: projects on cephfs
     type: cephfs
