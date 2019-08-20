@@ -15,16 +15,13 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
   && apt-get install -y --no-install-recommends tzdata git screen python3-yaml python3-apscheduler ceph-common \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-## fix ceph settings
-ENV mon_host="$(cat /secrets/rook-ceph-config-mon/mon_host)"
-
-RUN mkdir -p /etc/ceph \
-  && ln -s /secrets/rook-ceph-admin-keyring/etc/ceph/ceph.client.admin.keyring /etc/ceph/ceph.client.admin.keyring \
-  && cp /secrets/rook-ceph-config/etc/ceph/ceph.conf /etc/ceph/ceph.conf \
-  && echo "mon host = ${mon_host}" >> /etc/ceph/ceph.conf
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## clone auto_snapshot repo
 RUN git clone https://github.com/STAT-UP/auto_snapshot /auto_snapshot \
   && chmod u+x /auto_snapshot/auto_snapshot.py
+
+COPY fix-ceph-config.bash /etc/my_init.d/fix-ceph-config.bash
+RUN chmod u+x /etc/my_init.d/fix-ceph-config.bash
+
