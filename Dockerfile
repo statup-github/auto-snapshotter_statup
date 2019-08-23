@@ -1,4 +1,4 @@
-FROM stefanfritsch/baseimage_statup:1.0
+FROM stefanfritsch/baseimage_statup:1.1
 LABEL maintainer="Stefan Fritsch <stefan.fritsch@stat-up.com>"
 
 ENV CEPH_RELEASE_STATUP=nautilus
@@ -14,9 +14,11 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 ## install ceph, git and python3 packages
 RUN apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
-  && apt-get install -y --no-install-recommends tzdata git screen python3-yaml python3-apscheduler ceph-common \
+  && apt-get install -y --no-install-recommends tzdata git screen python3-yaml python3-apscheduler ceph-common rsync sudo \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN echo "%sudo ALL=NOPASSWD:$(which rsync)" >> /etc/sudoers
 
 ## clone auto_snapshot repo
 RUN git clone https://github.com/STAT-UP/auto_snapshot /auto_snapshot \
