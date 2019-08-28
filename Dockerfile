@@ -1,4 +1,4 @@
-FROM stefanfritsch/baseimage_statup:1.1.2.20190826
+FROM stefanfritsch/baseimage_statup:1.1.2.20190828
 LABEL maintainer="Stefan Fritsch <stefan.fritsch@stat-up.com>"
 
 ENV CEPH_RELEASE_STATUP=nautilus
